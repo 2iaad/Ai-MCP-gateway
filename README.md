@@ -4,12 +4,6 @@ A local **Model Context Protocol (MCP)** server that uses STDIN/STDOUT to talk w
 > The first 3 tools i created won't be used because vs-code uses its built in tools such as 'list_dir' instead of using my 'list_directory'
 ---
 
-## What is MCP?
-
-MCP is a standard that lets an AI model use external tools running on our machine. Instead of the model guessing, it calls a named tool with typed arguments and gets predictable results back.
-
----
-
 ## Tools
 
 | Tool | What it does |

@@ -22,7 +22,7 @@
 
 **MCP stands for Model Context Protocol.**
 
-Think of it like a USB standard for AI.
+MCP is a standard that lets an AI model use external tools running on our machine. Instead of the model guessing, it calls a named tool with typed arguments and gets predictable results back.
 
 Before MCP, every AI tool had its own custom way of connecting to external data (files, databases, APIs). MCP is a *single open standard* that solves this once and for all.
 

@@ -12,6 +12,7 @@ A local **Model Context Protocol (MCP)** server that uses STDIN/STDOUT to talk w
 | `list_directory` | Lists files and folders inside a directory |
 | `get_library_docs` | Fetches up-to-date docs from Context7 for any library |
 | `count_notes` | Returns how many notes you have in the macOS Notes app |
+| `latest_song` | Shows the latest song played on Spotify |
 
 ---
 
@@ -24,6 +25,16 @@ A local **Model Context Protocol (MCP)** server that uses STDIN/STDOUT to talk w
 
 ---
 
+## Testing latest_song tool
+
+The image below shows the answer received from the MCP server in the chat, displaying the most recent song played on Spotify.
+ 
+<div align='center'>
+	<img src='latest_song.png' width=600/>
+</div>
+
+---
+
 ## Setup
 
 ```bash
@@ -33,13 +44,4 @@ npm run build
 ```
 
 VS Code auto-starts the server via `.vscode/mcp.json` whenever Copilot Agent connects.
-
----
-
-## Stack
-
-- **Runtime:** Node.js 18+
-- **Language:** TypeScript
-- **MCP SDK:** `@modelcontextprotocol/sdk`
-- **Schema validation:** Zod
-- **Transport:** stdio (stdin/stdout pipes)
+If you have feedback or ideas, feel free to share :)

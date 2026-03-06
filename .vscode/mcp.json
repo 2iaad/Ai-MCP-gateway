@@ -13,7 +13,7 @@
 
       // Arguments passed to node – points to the compiled JavaScript entry point
       "args": [
-        "${workspaceFolder}/mcp-server/dist/index.js"
+        "${workspaceFolder}/McpServer/dist/index.js"
       ]
     }
   }

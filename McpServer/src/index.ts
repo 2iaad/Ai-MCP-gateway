@@ -1,33 +1,30 @@
 /**
- *  This server exposes 3 tools to the AI:
+ *  This server exposes 4 tools to the AI:
  *    1. read_file        – read any file from your file system
  *    2. list_directory   – list what's inside a folder
  *    3. get_library_docs – fetch up-to-date docs from Context7
+ *    4. count_notes – return how many notes i have in my Notes app
+ * 
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-
 // this library lets processes talk using file descriptors stdin & stdout
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-
-// z is used to declare typed input schemas; the SDK converts them to JSON Schema automatically so the AI client knows what to pass.
 import { z } from "zod";
-
-// builtin modules f node js
 import fs from "fs/promises"; // read write file-system files
 import path from "path"; // path helpers
+import { execFile } from "child_process"; // run shell commands
+import { promisify } from "util";
 
-// ─── 1. Create the server ────────────────────────────────────────────────────
-
+const execFileAsync = promisify(execFile);
 const server = new McpServer({ name: "my-mcp-server", version: "1.0.0" });
 
-// ─── 2. Register tools ───────────────────────────────────────────────────────
-//
-// registerTool(name, { description, inputSchema }, handler)
-//   - inputSchema uses Zod; the SDK converts it to JSON Schema for the client
-//   - the handler receives validated, fully-typed arguments directly
+/**
+ * 
+ * registerTool(name, { description, inputSchema }, handler)
+ *   - inputSchema use Zod -> SDK converts it to JSON Schema for the client
+*/
 
-// ── Tool 1: read_file ─────────────────────────────────────────────────────────
 server.registerTool(
 	"read_file",
 	{
@@ -41,15 +38,14 @@ server.registerTool(
 		},
 	},
 	async ({ file_path }) => {
-		// path.resolve turns relative paths into absolute ones
-		const resolvedPath = path.resolve(file_path);
+		const resolvedPath = path.resolve(file_path); // convert relative paths into absolute ones
 
 		try {
-			// fs.readFile returns the raw bytes; "utf-8" converts them to a string
-			const content = await fs.readFile(resolvedPath, "utf-8");
+			console.error("salam from read_file!");
 
-			// MCP tools return an array of "content" blocks.
-			// type: "text" (other types: "image", "resource").
+			const content = await fs.readFile(resolvedPath, "utf-8"); // returns the raw bytes & "utf-8" converts them to a string
+
+			// type: "text" or "image" or "resource"
 			return {
 				content: [{ type: "text", text: `File: ${resolvedPath}\n\n${content}` }],
 			};
@@ -63,7 +59,6 @@ server.registerTool(
 	}
 );
 
-// ── Tool 2: list_directory ────────────────────────────────────────────────────
 server.registerTool(
 	"list_directory",
 	{
@@ -79,14 +74,13 @@ server.registerTool(
 		},
 	},
 	async ({ dir_path }) => {
+		console.error("salam from list_directory!");
 		const resolvedPath = path.resolve(dir_path);
 
 		try {
-			// fs.readdir with { withFileTypes: true } returns Dirent objects that
-			// tell us whether each entry is a file or a directory
+			// withFileTypes: true returns objects that tells if each element is a file or a directory
 			const entries = await fs.readdir(resolvedPath, { withFileTypes: true });
 
-			// Build a human-readable list  [DIR] folder/  or  [FILE] file.txt
 			const lines = entries.map((entry) =>
 				entry.isDirectory() ? `[DIR]  ${entry.name}/` : `[FILE] ${entry.name}`
 			);
@@ -104,7 +98,6 @@ server.registerTool(
 	}
 );
 
-// ── Tool 3: get_library_docs ──────────────────────────────────────────────────
 server.registerTool(
 	"get_library_docs",
 	{
@@ -214,12 +207,37 @@ server.registerTool(
 	}
 );
 
-// ─── 3. Start the server ──────────────────────────────────────────────────────
+server.registerTool(
+	"count_notes",
+	{
+		description:
+			"Returns the total number of notes stored in the macOS Notes app. " +
+			"Use this when the user asks how many notes they have.",
+		inputSchema: {},
+	},
+	async () => {
+		try {
+			console.error("salam from count_notes!");
+			const { stdout } = await execFileAsync("osascript", [
+				"-e",
+				'tell application "Notes" to return count of notes',
+			]);
+			const count = stdout.trim();
+			return {
+				content: [{ type: "text", text: `You have ${count} note(s) in the Notes app.` }],
+			};
+		} catch (err) {
+			const message = err instanceof Error ? err.message : String(err);
+			return {
+				content: [{ type: "text", text: `Error accessing Notes app: ${message}` }],
+				isError: true,
+			};
+		}
+	}
+);
 
-// linking the server with stdin/stdout
-const transport = new StdioServerTransport();
+const transport = new StdioServerTransport(); // linking the server with stdin/stdout to communicate with MCP client (co-kilot)
 
-// starting event loop
 await server.connect(transport);
 
 console.error("MCP server running!");

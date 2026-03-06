@@ -1,7 +1,7 @@
 # My MCP Server
 
-A local **Model Context Protocol (MCP)** server that uses STDIN/STDOUT to talk with AI agents to access our file system and macOS Notes app.
-> The first 3 tools i created won't be used because vs-code uses its built in tools such as 'list_dir' instead of using my 'list_directory'
+A local **Model Context Protocol (MCP)** server that uses STDIN/STDOUT to talk with AI agents (MCP clients) to access our file system, context7 API, and macOS Notes app.
+> The first 2 tools i created won't be used because vs-code uses its built in tools such as 'list_dir' & 'read_file' instead of using my 'list_directory' & 'read_file'
 ---
 
 ## Tools

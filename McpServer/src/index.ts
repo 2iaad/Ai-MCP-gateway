@@ -236,6 +236,38 @@ server.registerTool(
 	}
 );
 
+server.registerTool(
+	"lastest_song",
+	{
+		description: "gets the latest song played on the macOS Spotify application." +
+		"Use this when the user asks for the lastest streamed song",
+		inputSchema: {},
+	},
+	async () => {
+		try {
+			console.error("salam from lastest_song!");
+			const { stdout } = await execFileAsync("osascript", [
+				"-e",
+				'tell application "Spotify" to return name of current track',
+			]);
+			const song = stdout.trim();
+			return {
+				content: [{ type: "text", text: `The latest song played on Spotify is: ${song}` }],
+			};
+		} catch (err)
+		{
+			const message = err instanceof Error ? err.message : String(err);
+			return {
+				content: [{ type: "text", text: `Error accessing Spotify app: ${message}` }],
+				isError: true,
+			};
+		}
+		return {
+			content: [{ type: "text", text: `salam` }],
+		};
+	}
+)
+
 const transport = new StdioServerTransport(); // linking the server with stdin/stdout to communicate with MCP client (co-kilot)
 
 await server.connect(transport);

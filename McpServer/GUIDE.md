@@ -35,12 +35,12 @@ Before MCP, every AI tool had its own custom way of connecting to external data 
            ┌───────────────▼───────────────┐
            │          MCP Server           │
            │    (the code we just built)   │
-           └──────┬──────────────┬─────────┘
-                  │              │
-          ┌───────▼──┐    ┌──────▼──────┐
-          │  Your    │    │  Context7   │
-          │  Files   │    │    API      │
-          └──────────┘    └─────────────┘
+           └──────┬──────────┬─────────┬───┘
+                  │          │         │
+          ┌───────▼──┐ ┌─────▼────┐ ┌──▼───────┐
+          │  Your    │ │ Context7 │ │ Spotify  │
+          │  Files   │ │   API    │ │   App    │
+          └──────────┘ └──────────┘ └──────────┘
 ```
 
 The AI talks to YOUR server using MCP. YOUR server talks to the real world (files, APIs). This means the AI never needs to know the details of how files are read or how Context7 works — it just calls the tools you expose.
@@ -231,7 +231,7 @@ Copilot Agent mode can now see:
 - Node.js 18 or later (`node --version`)
 - VS Code with the **GitHub Copilot** extension installed
 
-### First-time setup (already done)
+### First-time setup
 
 ```bash
 cd mcp-server
@@ -338,19 +338,3 @@ And restart VS Code (or reload the MCP server) to pick up the new tool.
 ```bash
 cd mcp-server && npm run build
 ```
-
-Read the error message – it will tell you exactly which file and line number has the problem.
-
----
-
-## Summary
-
-You now have a working MCP server that:
-
-- ✅ Lets Copilot **read any file** from your filesystem as context
-- ✅ Lets Copilot **explore directories** to discover available context/skill files
-- ✅ Lets Copilot **fetch live documentation** from Context7 for any library
-- ✅ Is written in clean, commented TypeScript
-- ✅ Is automatically connected to VS Code's Copilot Agent mode
-
-The key insight of MCP is simple: **you write the tools, the AI decides when to use them.** You don't need to manually tell Copilot "read this file first" — if you describe your tool well enough in `description`, the AI will call it on its own when it's relevant.

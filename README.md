@@ -24,7 +24,7 @@ MCP is a standard that lets an AI model use external tools running on our machin
 ## How it works
 
 <div align='center'>
-	<img src='DataFlow.png' width=600/>
+	<img src='DataFlow.png' width=900/>
 </div>
 
 

@@ -54,7 +54,6 @@ server.registerTool(
 				content: [{ type: "text", text: `File: ${resolvedPath}\n\n${content}` }],
 			};
 		} catch (err) {
-			// If the file doesn't exist or can't be read, tell the AI clearly
 			const message = err instanceof Error ? err.message : String(err);
 			return {
 				content: [{ type: "text", text: `Error reading file: ${message}` }],
@@ -75,7 +74,7 @@ server.registerTool(
 			dir_path: z
 				.string()
 				.describe(
-					"Absolute path to the directory, e.g. /Users/ziyad/Desktop/my-project"
+					"Absolute path to the directory, e.g. /Users/ziyad/Desktop"
 				),
 		},
 	},
@@ -217,10 +216,10 @@ server.registerTool(
 
 // ─── 3. Start the server ──────────────────────────────────────────────────────
 
-// StdioServerTransport links the server with stdin/stdout
+// linking the server with stdin/stdout
 const transport = new StdioServerTransport();
 
-// starting the event loop
+// starting event loop
 await server.connect(transport);
 
-console.error("MCP server started and ready.");
+console.error("MCP server running!");

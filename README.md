@@ -1,6 +1,6 @@
 # My MCP Server
 
-A local **Model Context Protocol (MCP)** server that uses STDIN/STDOUT to talk with AI agents (MCP clients) to access our file system, context7 API, and macOS Notes app.
+A local **Model Context Protocol (MCP)** server that uses STDIN/STDOUT to talk with AI agents (MCP clients) to access our file system, context7 API, macOS Notes and Spotify app.
 > The first 2 tools i created won't be used because vs-code uses its built in tools such as 'list_dir' & 'read_file' instead of using my 'list_directory' & 'read_file'
 ---
 
@@ -30,7 +30,7 @@ A local **Model Context Protocol (MCP)** server that uses STDIN/STDOUT to talk w
 The image below shows the answer received from the MCP server in the chat, displaying the most recent song played on Spotify.
  
 <div align='center'>
-	<img src='latest_song.png' width=600/>
+	<img src='latest_song.png' width=900/>
 </div>
 
 ---

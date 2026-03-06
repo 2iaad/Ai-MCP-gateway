@@ -1,0 +1,20 @@
+{
+  // This file tells VS Code about your custom MCP servers.
+  // Copilot Chat (Agent mode) will automatically discover and connect to them.
+  "servers": {
+    // The key is the server's display name – you'll see it in Copilot's tool list
+    "my-mcp-server": {
+      // "stdio" means VS Code will launch the server as a child process
+      // and talk to it through standard input/output pipes.
+      "type": "stdio",
+
+      // The command that starts the server
+      "command": "node",
+
+      // Arguments passed to node – points to the compiled JavaScript entry point
+      "args": [
+        "${workspaceFolder}/mcp-server/dist/index.js"
+      ]
+    }
+  }
+}

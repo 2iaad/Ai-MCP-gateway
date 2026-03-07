@@ -1,7 +1,7 @@
 # Context
 
-> Fill this in and share it with your AI at the start of a conversation.
-> The more accurate this is, the less explaining you have to do every time.
+> Fill this in and share it with the AI at the start of a conversation.
+> The more accurate this is, the less explaining we will have to do every time.
 
 ---
 

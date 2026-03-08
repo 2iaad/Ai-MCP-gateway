@@ -2,6 +2,8 @@
 
 An AI agent is a model that can **take actions** — it doesn't just answer, it does work.
 
+It uses LLM's to get answers and Tools to perform the actions.
+
 It can edit files, run commands, call APIs, and loop over steps on its own until the task is done.
 
 **When to use it:** Multi-step tasks, editing across multiple files, generating and running tests, scaffolding a feature.
